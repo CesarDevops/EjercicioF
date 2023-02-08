@@ -6,7 +6,7 @@ pipeline {
         agent any 
 
         tools {
-            
+
         maven "3.9.0"
         } 
         
@@ -26,7 +26,7 @@ pipeline {
             stage( 'Deploy our image' ) {
                  steps{
                      script {
-                         docker.withRegistry( '' , registryCredential ) {
+                         docker.withRegistry( 'cesarnttdata_dockerhub' , registryCredential ) {
                              dockerImage.push() 
                             } 
                         } 

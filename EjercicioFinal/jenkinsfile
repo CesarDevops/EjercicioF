@@ -14,7 +14,7 @@ pipeline {
         /*stage('SCM checkout') {
             steps {
                
-                git 'https://github.com/CesarDevops/EjercicioPipeline.git'
+                git 'https://github.com/CesarDevops/pipeline.git'
                 
             }
         } 
@@ -23,7 +23,7 @@ pipeline {
         stage('Build') { 
             steps { 
                 //sh 'maven task'
-                git branch: 'main', url: 'https://github.com/CesarDevops/EjercicioPipeline.git'
+                git branch: 'main', url: 'https://github.com/CesarDevops/pipeline.git'
                 //sh 'maven init'
                 //sh 'maven wrapper'
                 //sh './maven build'

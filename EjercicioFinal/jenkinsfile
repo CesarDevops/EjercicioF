@@ -32,7 +32,7 @@ pipeline {
                 //bat "mvn -Dmaven.test.failure.ignore=true clean package"
             }
         }
-        /*stage('Test'){
+        stage('Test'){
             steps {
                 //sh 'make check'
                 echo 'test succesfull' 
@@ -40,7 +40,7 @@ pipeline {
                 //bat  'mvn sonar:sonar -Dsonar.host.url='+env.SONAR_URL+' -Dsonar.projectName=QA:%JOB_BASE_NAME% -Dsonar.projectKey=QA:%JOB_BASE_NAME%'
             }
         }
-        */
+        
         stage('Build docker images') {
             steps {
                 //sh 'make publish'

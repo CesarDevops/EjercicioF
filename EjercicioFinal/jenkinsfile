@@ -1,0 +1,94 @@
+pipeline { 
+    agent any //{label "docker-build-Jenkins"} 
+    tools {
+        maven "3.9.0"
+        
+    } 
+    
+    environment{
+
+        DOCKERHUB_CREDENTIALS = credentials('CesarnttdataDockerhub')
+    }
+    stages{  
+
+        /*stage('SCM checkout') {
+            steps {
+               
+                git 'https://github.com/CesarDevops/EjercicioPipeline.git'
+                
+            }
+        } 
+        */
+
+        stage('Build') { 
+            steps { 
+                //sh 'maven task'
+                git branch: 'main', url: 'https://github.com/CesarDevops/EjercicioPipeline.git'
+                //sh 'maven init'
+                //sh 'maven wrapper'
+                //sh './maven build'
+                echo 'build succesfull' 
+                //sh "mvn -Dmaven.test.failure.ignore=true clean package"
+                //bat "mvn -Dmaven.test.failure.ignore=true clean package"
+            }
+        }
+        /*stage('Test'){
+            steps {
+                //sh 'make check'
+                echo 'test succesfull' 
+                //echo 'executing sonar'
+                //bat  'mvn sonar:sonar -Dsonar.host.url='+env.SONAR_URL+' -Dsonar.projectName=QA:%JOB_BASE_NAME% -Dsonar.projectKey=QA:%JOB_BASE_NAME%'
+            }
+        }
+        */
+        stage('Build docker images') {
+            steps {
+                //sh 'make publish'
+                sh 'docker build -t usuariosweb:v1 .'
+                //sh 'docker build -t ${cesarnttdata}:${Usuario.v1} .'
+                echo 'Build docker images'  
+               
+            }
+        }
+         /*stage('login to dockerhub') {
+            steps {
+
+                
+                withCredentials([usernamePassword(credentialsId: 'cesarnttdata_dockerhub', passwordVariable: 'DOCKERHUB_CREDENTIALS_PSW', usernameVariable: 'DOCKERHUB_CREDENTIALS_USR')]){
+                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+                
+                // sh 'docker push 8-jre-alpine:latest'
+                }
+                echo 'Login dockerhub'  
+                
+            }
+        }
+        stage('Push images') {
+            steps {
+
+                sh 'docker push cesarnttdata/img_micros.3:$BUILD_NUMBER'
+                //withCredentials([usernamePassword(credentialsId: 'docker_hub', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]){
+                   // sh 'docker push 8-jre-alpine:latest'
+                //}
+                echo 'Push docker images'  
+                
+            }
+        }
+         */
+
+       
+        
+    }
+   
+
+}
+
+
+/*post {
+
+        always {
+                sh 'docker logout'
+        }
+        
+}
+*/

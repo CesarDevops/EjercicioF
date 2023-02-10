@@ -22,6 +22,12 @@ pipeline {
 
         stage('Build') { 
             steps { 
+               script{
+                sh """
+                cd rest
+                maven build
+                """
+                }
                 //sh 'maven task'
                 git branch: 'main', url: 'https://github.com/CesarDevops/pipeline.git'
                 //sh 'maven init'
@@ -32,15 +38,24 @@ pipeline {
                 //bat "mvn -Dmaven.test.failure.ignore=true clean package"
             }
         }
-        stage('Test'){
+         stage('test with Sonarqube') {
             steps {
-                //sh 'make check'
-                echo 'test succesfull' 
-                //echo 'executing sonar'
-                //bat  'mvn sonar:sonar -Dsonar.host.url='+env.SONAR_URL+' -Dsonar.projectName=QA:%JOB_BASE_NAME% -Dsonar.projectKey=QA:%JOB_BASE_NAME%'
+                script{
+                    def scannerHome = tool 'Sonarqube'
+                    withSonarQubeEnv('Sonarqube'){
+                        sh"""
+                        cd rest 
+                        maven sonarqube \
+                        -Dsonar.project=sonarqube \
+                        -Dsonar.host.url=http://10.0.187.245:9000 \
+                        -Dsonar.login=274e66b2b616791670b6cc2c4bc86ab44d5c6e10 \
+                        -D sonar.sourceEncoding=UTF-8 \
+                        -D sonar.language=java 
+                        """
+                    }
+                }
             }
         }
-        
         stage('Build docker images') {
             steps {
                 //sh 'make publish'
